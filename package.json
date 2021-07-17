@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "update": "node ./update.js",
-    "build": "node ./build.js && node ./copy-files.js",
-    "release": "npm run update && npm run build && npm version patch && npm publish --access=public"
+    "build": "node ./build.js",
+    "release": "npm run update && npm run build && npm version patch && node ./copy-files.js && cd ./build && npm publish --access=public"
   }
 }

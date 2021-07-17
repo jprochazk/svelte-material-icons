@@ -1,13 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-
-async function copy(from, to) {
-  await fs.promises.writeFile(
-    to,
-    await fs.promises.readFile(from, "utf-8"),
-    "utf-8"
-  );
-}
+const { copy } = require("./common");
 
 (async function () {
   const root = (p) => path.join(__dirname, p);

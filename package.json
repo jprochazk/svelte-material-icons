@@ -1,5 +1,10 @@
 {
   "name": "@jprochazk/svelte-material-icons",
   "version": "0.0.1",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "update": "node ./update.js",
+    "build": "node ./build.js && node ./copy-files.js",
+    "release": "npm run update && npm run build && npm version patch && npm publish --access=public"
+  }
 }

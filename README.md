@@ -6,11 +6,21 @@ File names are converted from `kebab-case.svg` to `PascalCase.svelte`, e.g. `goo
 
 ### Installation
 
+To install `@jprochazk/svelte-material-icons` under the `material-icons` alias:
+
+With `npm`:
 ```
 $ npm install material-icons@npm:jprochazk/svelte-material-icons
 ```
-
-Will install `@jprochazk/svelte-material-icons` under the `material-icons` alias
+With `yarn`:
+```
+$ yarn add material-icons@npm:@jprochazk/svelte-material-icons
+```
+Or manually add this to your `package.json` `dependencies`:
+```
+"material-icons": "npm:@jprochazk/svelte-material-icons"
+```
+And run `npm install` or `yarn install`.
 
 ### Usage
 

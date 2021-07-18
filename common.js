@@ -17,7 +17,10 @@ prompt.open = () => {
     output: process.stdout,
   });
 };
-prompt.close = () => rli.close();
+prompt.close = () => {
+  rli.close();
+  rli = null;
+};
 
 const colors = {
   reset: "\x1b[0m",
@@ -45,6 +48,8 @@ const colors = {
   bgWhite: "\x1b[47m",
 };
 
+let cwd = process.cwd();
+
 /**
  * Asynchronously execute a command
  * @param {string} input
@@ -53,14 +58,31 @@ const colors = {
  */
 const $ = (command, capture = false) =>
   new Promise((resolve, reject) => {
-    const child = require("child_process").exec(command, (error, stdout) =>
-      error ? reject(error) : resolve(stdout)
+    const child = require("child_process").exec(
+      command,
+      { cwd },
+      (error, stdout) => (error ? reject(error) : resolve(stdout))
     );
     if (!capture) {
       child.stdout.pipe(process.stdout);
       child.stderr.pipe(process.stderr);
     }
   });
+/**
+ * @param {string} v
+ * @returns {string}
+ */
+$.cd = (v) => (cwd = path.resolve(cwd, v));
+$.cwd = () => cwd;
+/**
+ * @param {string} src
+ * @param {string} dest
+ * @returns {Promise<void>}
+ */
+$.cp = (src, dest) => {
+  console.log(`Copying '${src}' to '${dest}'`);
+  return fs.promises.copyFile(src, dest);
+};
 
 class File {
   /** @type {string} */ path;
@@ -145,7 +167,6 @@ class File {
    * @param {string} path
    */
   static async createDir(path, recursive = true) {
-    if (await File.exists(path)) return;
     await fs.promises.mkdir(path, { recursive });
   }
 }

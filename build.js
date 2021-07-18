@@ -1,4 +1,3 @@
-const fs = require("fs");
 const path = require("path");
 const { File, fail, $, colors } = require("./common");
 const root = __dirname;
@@ -46,7 +45,9 @@ async function main(options) {
     console.log("Source not found, initializing submodules");
     await $("git submodule update --init --recursive");
   }
-  await File.createDir(out);
+  if (!(await File.exists(out))) {
+    await File.createDir(out);
+  }
 
   const total = await File.count(src);
   let count = total;

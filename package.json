@@ -2,9 +2,22 @@
   "name": "@jprochazk/svelte-material-icons",
   "version": "0.0.3",
   "license": "MIT",
+  "homepage": "https://github.com/jprochazk/svelte-material-icons",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jprochazk/svelte-material-icons.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jprochazk/svelte-material-icons/issues"
+  },
+  "keywords": [
+    "svelte",
+    "material",
+    "icons"
+  ],
   "scripts": {
     "update": "node ./update.js",
     "build": "node ./build.js",
-    "release": "npm run update && npm run build && npm version patch && node ./copy-files.js && cd ./build && npm publish --access=public"
+    "release": "node ./update.js && node ./build.js && npm version patch && node ./copy-files.js && cd ./build && npm publish --access=public"
   }
 }

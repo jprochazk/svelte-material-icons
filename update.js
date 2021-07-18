@@ -24,7 +24,6 @@ It:
 
   console.log("Fetching remote...");
   $.cd("./MaterialDesign");
-  console.log($.cwd());
   await $(`git fetch`, true);
   const log = await $(`git log --oneline master..origin/master`, true);
   if (log.length > 0) {

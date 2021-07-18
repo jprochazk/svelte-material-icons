@@ -179,24 +179,10 @@ const fail = (message) => {
   process.exit(1);
 };
 
-/**
- * @param {string} from
- * @param {string} to
- */
-async function copy(from, to) {
-  console.log(`Copying ${from} to ${to}`);
-  await fs.promises.writeFile(
-    to,
-    await fs.promises.readFile(from, "utf-8"),
-    "utf-8"
-  );
-}
-
 module.exports = {
   $,
   colors,
   File,
   fail,
-  copy,
   prompt,
 };

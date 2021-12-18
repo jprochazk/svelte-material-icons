@@ -6,15 +6,11 @@ const root = __dirname;
 const convertCase = (input) =>
   input
     .split("-")
-    .map(
-      (frag) =>
-        frag.substring(0, 1).toUpperCase() + frag.substring(1).toLowerCase()
-    )
+    .map((frag) => frag.substring(0, 1).toUpperCase() + frag.substring(1).toLowerCase())
     .join("");
 
 /** @param {File} file */
-const transformPath = (file) =>
-  path.join(root, "build", convertCase(file.name()) + ".svelte");
+const transformPath = (file) => path.join(root, "build", convertCase(file.name()) + ".svelte");
 
 /** @param {File} file */
 const transformContent = (file) =>
@@ -49,18 +45,20 @@ async function main(options) {
     await File.createDir(out);
   }
 
+  let indexSrc = "";
+
   const total = await File.count(src);
   let count = total;
-  let handle = setInterval(() => {
+  let interval = setInterval(async () => {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
-    if (!options.verbose)
-      process.stdout.write(`${total - count}/${total} ${spinner.next().value}`);
+    if (!options.verbose) process.stdout.write(`${total - count}/${total} ${spinner.next().value}`);
     if (count === 0) {
-      process.stdout.write(
-        `\n${colors.fgGreen}Build successful${colors.reset}\n`
-      );
-      clearInterval(handle);
+      process.stdout.write("\n");
+      process.stdout.write(`Writing ${colors.fgBlue}index.js${colors.reset}...`);
+      await new File("build/index.js", indexSrc).write();
+      process.stdout.write(`${colors.fgGreen}Build successful${colors.reset}\n`);
+      clearInterval(interval);
     }
   }, 50);
 
@@ -71,14 +69,12 @@ async function main(options) {
       .write()
       .then(() => {
         count -= 1;
-        if (options.verbose)
-          console.log(
-            `Built ${colors.fgGreen}${file.name(true)}${colors.reset}`
-          );
+        if (options.verbose) console.log(`Built ${colors.fgGreen}${file.name(true)}${colors.reset}`);
       })
-      .catch((error) =>
-        fail(`Failed to write ${file.name(true)}:\n${error.toString()}`)
-      );
+      .catch((error) => fail(`Failed to write ${file.name(true)}:\n${error.toString()}`));
+
+    const baseName = path.basename(file.path, path.extname(file.path));
+    indexSrc += `export { default as ${baseName} } from "./${baseName}.svelte";\n`;
   });
 }
 

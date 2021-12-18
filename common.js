@@ -58,10 +58,8 @@ let cwd = process.cwd();
  */
 const $ = (command, capture = false) =>
   new Promise((resolve, reject) => {
-    const child = require("child_process").exec(
-      command,
-      { cwd },
-      (error, stdout) => (error ? reject(error) : resolve(stdout))
+    const child = require("child_process").exec(command, { cwd }, (error, stdout) =>
+      error ? reject(error) : resolve(stdout)
     );
     if (!capture) {
       child.stdout.pipe(process.stdout);
@@ -124,12 +122,7 @@ class File {
    * @param {string} filePath
    * @param {(file: File) => void} callback
    */
-  static each(
-    filePath,
-    callback,
-    recursive = true,
-    stat = fs.statSync(filePath)
-  ) {
+  static each(filePath, callback, recursive = true, stat = fs.statSync(filePath)) {
     if (stat.isDirectory()) {
       fs.promises.readdir(filePath).then((files) => {
         for (let i = 0; i < files.length; ++i) {

@@ -16,7 +16,7 @@
     "icons"
   ],
   "scripts": {
-    "update": "node ./update.js",
+    "update": "git submodule update --remote",
     "build": "node ./build.js",
     "release": "node ./update.js && node ./build.js && npm version patch && node ./copy-files.js && cd ./build && npm publish --access=public"
   }

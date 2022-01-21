@@ -52,7 +52,7 @@ async function main(options) {
     process.stdout.cursorTo(0);
     if (!options.verbose) process.stdout.write(`${total - count}/${total} ${spinner.next().value}`);
     if (count === 0) {
-      process.stdout.write(`${colors.fgGreen}Build successful${colors.reset}\n`);
+      process.stdout.write(`\n${colors.fgGreen}Build successful${colors.reset}\n`);
       clearInterval(interval);
     }
   }, 50);

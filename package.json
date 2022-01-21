@@ -10,7 +10,6 @@
   "bugs": {
     "url": "https://github.com/jprochazk/svelte-material-icons/issues"
   },
-  "svelte": "index.js",
   "keywords": [
     "svelte",
     "material",
